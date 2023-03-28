@@ -21,21 +21,22 @@ from src.utils import save_object,evaluate_models
 
 @dataclass
 class ModelTrainerConfig:
-    trained_model_file_path=os.path.join("artifacts","model.pk1")
+    trained_model_file_path=os.path.join("artifacts","model.pkl")
 
 class ModelTrainer:
     def __init__(self):
         self.model_trainer_config=ModelTrainerConfig()
 
-    def initiate_model_trainer(self,train_array,test_array,):
+
+    def initiate_model_trainer(self,train_array,test_array):
         try:
-            logging.info("split training and test input data")
+            logging.info("Split training and test input data")
             X_train,y_train,X_test,y_test=(
                 train_array[:,:-1],
                 train_array[:,-1],
                 test_array[:,:-1],
                 test_array[:,-1]
-            ) 
+            )
             models = {
                 "Random Forest": RandomForestRegressor(),
                 "Decision Tree": DecisionTreeRegressor(),
@@ -44,8 +45,7 @@ class ModelTrainer:
                 "XGBRegressor": XGBRegressor(),
                 "CatBoosting Regressor": CatBoostRegressor(verbose=False),
                 "AdaBoost Regressor": AdaBoostRegressor(),
-            } 
-
+            }
             params={
                 "Decision Tree": {
                     'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
